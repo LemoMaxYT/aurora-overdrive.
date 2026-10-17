@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AURORA OVERDRIVE</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #090d18;
+      color: #eef4ff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    main {
+      padding: 28px;
+      max-width: 420px;
+    }
+    h1 { color: #72eaff; }
+    button {
+      padding: 13px 20px;
+      border: 0;
+      border-radius: 10px;
+      background: #72eaff;
+      color: #09101b;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    #status { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>AURORA OVERDRIVE</h1>
+    <p>Online rhythm experience</p>
+    <button id="check">Проверить сервер</button>
+    <p id="status">Сервер ещё не проверен</p>
+  </main>
+  <script>
+    document.getElementById("check").onclick = async () => {
+      const status = document.getElementById("status");
+      status.textContent = "Подключаемся...";
+      try {
+        const response = await fetch("/health");
+        if (!response.ok) throw new Error("Server error");
+        const data = await response.json();
+        status.textContent = "Сервер работает: " + data.game;
+      } catch {
+        status.textContent = "Пока не удалось подключиться. Проверь запуск сервера.";
+      }
+    };
+  </script>
+</body>
+  </html>
+    
